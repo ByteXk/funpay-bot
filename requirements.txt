@@ -1,0 +1,11 @@
+aiogram>=3.21.0
+
+FunPayAPI==1.1.0
+python-dotenv==1.0.1
+PyYAML==6.0.2
+beautifulsoup4
+lxml
+requests
+requests-toolbelt
+PySocks==1.7.1
+aiohttp-socks==0.10.1

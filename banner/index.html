@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="ru" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>FunPay-пульт</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #070b10;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #070b10;
+        color: #e8eef6;
+        font-family: "Segoe UI", "SF Pro Text", system-ui, sans-serif;
+      }
+      .fill {
+        position: absolute;
+        inset: 0;
+      }
+      .grid {
+        background-image:
+          linear-gradient(rgba(42, 171, 238, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(42, 171, 238, 0.05) 1px, transparent 1px);
+        background-size: 48px 48px;
+      }
+      .glow {
+        position: absolute;
+        width: 720px;
+        height: 720px;
+        left: -80px;
+        top: 180px;
+        background: radial-gradient(circle, rgba(42, 171, 238, 0.22), transparent 68%);
+      }
+      .glow-r {
+        position: absolute;
+        width: 640px;
+        height: 640px;
+        right: -40px;
+        top: -80px;
+        background: radial-gradient(circle, rgba(108, 92, 231, 0.16), transparent 70%);
+      }
+      .phone {
+        position: absolute;
+        left: 220px;
+        top: 90px;
+        width: 430px;
+        height: 900px;
+        border-radius: 54px;
+        background: #11151c;
+        box-shadow:
+          0 0 0 3px #2c3544,
+          0 40px 80px rgba(0, 0, 0, 0.55);
+        overflow: hidden;
+      }
+      .notch {
+        position: absolute;
+        top: 14px;
+        left: 50%;
+        margin-left: -54px;
+        width: 108px;
+        height: 18px;
+        border-radius: 12px;
+        background: #070b10;
+        z-index: 5;
+      }
+      .screen {
+        position: absolute;
+        top: 36px;
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        border-radius: 38px;
+        background: #0e1621;
+        overflow: hidden;
+      }
+      .tg-top {
+        height: 72px;
+        padding: 16px 18px 10px 18px;
+        background: #17212b;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .ava {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #0b4f73;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 18px;
+        color: #f4fbff;
+        flex: 0 0 auto;
+      }
+      .tg-name { font-size: 20px; font-weight: 650; letter-spacing: 0.2px; }
+      .tg-sub { font-size: 13px; color: #6ab3f3; margin-top: 2px; }
+      .msg {
+        margin: 16px 14px 0 14px;
+        background: #182533;
+        border-radius: 14px 14px 14px 4px;
+        padding: 12px 14px;
+      }
+      .msg-head { font-size: 15px; font-weight: 650; }
+      .msg-id { color: #8aa0b5; font-weight: 500; font-size: 14px; }
+      .quote {
+        margin-top: 10px;
+        border-left: 3px solid #2aabee;
+        padding: 6px 0 6px 10px;
+        color: #c5d4e3;
+        font-size: 15px;
+        line-height: 1.45;
+      }
+      .kbd {
+        margin: 10px 14px 0 14px;
+        display: grid;
+        gap: 8px;
+      }
+      .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .row.one { grid-template-columns: 1fr; }
+      .btn {
+        background: #233040;
+        color: #e8eef6;
+        border-radius: 10px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .btn.primary { background: #2b5278; }
+      .btn.ok { background: #1c4a3a; color: #8ee0b8; }
+      .btn.danger { background: #4a2a2a; color: #f0a0a0; }
+      .list { margin: 10px 14px 0 14px; }
+      .item {
+        background: #182533;
+        border-radius: 10px;
+        padding: 11px 12px;
+        margin-bottom: 8px;
+        font-size: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .dot { color: #2aabee; margin-right: 8px; }
+      .muted { color: #b7c9db; font-size: 14px; }
+      .copy {
+        position: absolute;
+        left: 780px;
+        top: 210px;
+        width: 980px;
+      }
+      .kicker {
+        color: #2aabee;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+      }
+      h1 {
+        margin-top: 12px;
+        font-size: 92px;
+        font-weight: 760;
+        letter-spacing: -2px;
+        line-height: 1.02;
+      }
+      .lead {
+        margin-top: 18px;
+        font-size: 28px;
+        color: #9db0c4;
+        max-width: 820px;
+        line-height: 1.35;
+      }
+      .pills {
+        margin-top: 48px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px 18px;
+        width: 760px;
+      }
+      .pill {
+        padding: 16px 18px;
+        border-radius: 14px;
+        background: rgba(24, 37, 51, 0.7);
+        border: 1px solid rgba(43, 82, 120, 0.4);
+        font-size: 24px;
+        font-weight: 650;
+      }
+      .foot {
+        position: absolute;
+        left: 780px;
+        bottom: 88px;
+        font-size: 20px;
+        color: #a9bdd2;
+      }
+      .panel {
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="8"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="stage" class="clip fill" data-start="0" data-duration="8" data-track-index="1">
+        <div class="fill grid"></div>
+        <div class="glow"></div>
+        <div class="glow-r"></div>
+
+        <div class="phone" id="phone">
+          <div class="notch"></div>
+          <div class="screen" data-layout-allow-overlap data-layout-allow-occlusion>
+            <div class="tg-top">
+              <div class="ava">F</div>
+              <div>
+                <div class="tg-name">FunPay-пульт</div>
+                <div class="tg-sub">бот · один админ</div>
+              </div>
+            </div>
+
+            <div class="panel" id="s-home">
+              <div class="msg">
+                <div class="msg-head">seller <span class="msg-id">#10000001</span></div>
+                <div class="quote">
+                  <div>баланс     12 480 ₽</div>
+                  <div>продажи    3</div>
+                  <div>покупки    0</div>
+                </div>
+              </div>
+              <div class="kbd">
+                <div class="row">
+                  <div class="btn">чаты</div>
+                  <div class="btn">заказы</div>
+                </div>
+                <div class="row">
+                  <div class="btn">лоты</div>
+                  <div class="btn">бот</div>
+                </div>
+                <div class="row one">
+                  <div class="btn primary">настройки</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel" id="s-chats">
+              <div class="list">
+                <div class="item"><span><span class="dot">●</span>buyer_01</span><span class="muted">сейчас</span></div>
+                <div class="item"><span>buyer_02</span><span class="muted">15:04</span></div>
+                <div class="item"><span>buyer_03</span><span class="muted">вчера</span></div>
+              </div>
+              <div class="kbd">
+                <div class="row one"><div class="btn primary">меню</div></div>
+              </div>
+            </div>
+
+            <div class="panel" id="s-lots">
+              <div class="msg">
+                <div class="msg-head">лоты</div>
+                <div class="quote">список, сток, json, поднятие</div>
+              </div>
+              <div class="kbd">
+                <div class="row">
+                  <div class="btn">список</div>
+                  <div class="btn">сток</div>
+                </div>
+                <div class="row">
+                  <div class="btn">json</div>
+                  <div class="btn ok">поднять</div>
+                </div>
+                <div class="row one"><div class="btn primary">меню</div></div>
+              </div>
+            </div>
+
+            <div class="panel" id="s-bot">
+              <div class="msg">
+                <div class="msg-head">бот</div>
+                <div class="quote">
+                  <div>в чатах: вкл</div>
+                  <div>модель: claude-sonnet-5</div>
+                  <div>примеры: 4</div>
+                </div>
+              </div>
+              <div class="kbd">
+                <div class="row">
+                  <div class="btn">шлюз</div>
+                  <div class="btn">обучение</div>
+                </div>
+                <div class="row one"><div class="btn danger">выкл в чатах</div></div>
+                <div class="row one"><div class="btn ok">тест</div></div>
+              </div>
+            </div>
+
+            <div class="panel" id="s-cfg">
+              <div class="msg">
+                <div class="msg-head">настройки</div>
+                <div class="quote">
+                  <div>поднятие   вкл</div>
+                  <div>ответы     вкл</div>
+                  <div>нейронка   вкл</div>
+                </div>
+              </div>
+              <div class="kbd">
+                <div class="row">
+                  <div class="btn">прокси</div>
+                  <div class="btn">команды</div>
+                </div>
+                <div class="row">
+                  <div class="btn">поднятие</div>
+                  <div class="btn">ответы</div>
+                </div>
+                <div class="row one"><div class="btn primary">меню</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="copy" id="copy">
+          <div class="kicker" id="kicker">Telegram · FunPay</div>
+          <h1 id="title">пульт продавца</h1>
+          <div class="lead" id="lead">Чаты, заказы и лоты с сайта. Нейронка отвечает покупателю, не тебе.</div>
+          <div class="pills">
+            <div class="pill" id="p0">чаты и заказы</div>
+            <div class="pill" id="p1">лоты · сток · json</div>
+            <div class="pill" id="p2">нейронка в FunPay</div>
+            <div class="pill" id="p3">прокси и команды</div>
+          </div>
+        </div>
+        <div class="foot" id="foot">один ADMIN_ID · python main.py</div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const screens = ["#s-home", "#s-chats", "#s-lots", "#s-bot", "#s-cfg"];
+      const pills = ["#p0", "#p0", "#p1", "#p2", "#p3"];
+      const dim = { opacity: 0.42, borderColor: "rgba(43,82,120,0.45)", backgroundColor: "rgba(24,37,51,0.7)" };
+      const lit = { opacity: 1, borderColor: "#2aabee", backgroundColor: "rgba(42,171,238,0.12)" };
+
+      gsap.set(screens, { autoAlpha: 0 });
+      gsap.set("#s-home", { autoAlpha: 1 });
+      gsap.set(".pill", dim);
+      gsap.set("#p0", lit);
+
+      tl.from("#phone", { x: -56, duration: 0.7, ease: "power3.out" }, 0);
+      tl.from("#copy", { x: 40, duration: 0.7, ease: "power3.out" }, 0.1);
+      tl.from("#foot", { y: 12, duration: 0.45, ease: "power2.out" }, 0.25);
+
+      const hits = [1.55, 3.1, 4.65, 6.2];
+      hits.forEach((t, i) => {
+        const cur = screens[i + 1];
+        const prev = screens[i];
+        tl.to(prev, { autoAlpha: 0, duration: 0.28, ease: "power2.inOut" }, t);
+        tl.fromTo(cur, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.38, ease: "power3.out" }, t + 0.04);
+        tl.to(".pill", { ...dim, duration: 0.2 }, t);
+        tl.to(pills[i + 1], { ...lit, duration: 0.25 }, t);
+      });
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

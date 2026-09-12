@@ -1,0 +1,31 @@
+{
+  "lots": [
+    {
+      "node_id": 3486,
+      "title_ru": "Ключ Steam — пример",
+      "title_en": "Steam key example",
+      "description_ru": "Мгновенная выдача после оплаты.",
+      "description_en": "Instant delivery after payment.",
+      "price": 150,
+      "amount": 3,
+      "active": true,
+      "deactivate_after_sale": false,
+      "stock": [
+        "XXXXX-YYYYY-ZZZZZ",
+        "AAAAA-BBBBB-CCCCC",
+        "11111-22222-33333"
+      ]
+    },
+    {
+      "node_id": 210,
+      "title_ru": "Другая категория — 1 шт.",
+      "title_en": "Other category — 1 pcs",
+      "description_ru": "Количество независимо от первого лота.",
+      "description_en": "Quantity independent from the first lot.",
+      "price": 99.5,
+      "amount": 1,
+      "active": true,
+      "stock_file": "other_category.txt"
+    }
+  ]
+}
